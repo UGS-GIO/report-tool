@@ -6,7 +6,7 @@ interface ReferencesProps {
 }
 
 const References: FC<ReferencesProps> = ({ references }) => {
-  console.log('References.render');
+  // console.log('References.render');
   return (
     <>
       <h3>References</h3>

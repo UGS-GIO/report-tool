@@ -13,15 +13,14 @@ export interface HazardUnitProps {
 }
 
 const HazardUnit: FC<HazardUnitProps> = ({ HazardUnit, Description, HowToUse }) => {
-  console.log('HazardUnit', { HazardUnit, Description, HowToUse });
-  console.log('HAZZYBAZZY');
+  // console.log('HazardUnit', { HazardUnit, Description, HowToUse });
   const [hasLegend, setHasLegend] = useState(false);
   const legend = useRef<HTMLDivElement>(null);
   const mapContext = useContext(HazardMapContext);
 
   useEffect(() => {
     const buildLegend = async (renderer: any) => {
-      console.log('buildLegend', renderer);
+      // console.log('buildLegend', renderer);
 
       setHasLegend(true);
 
@@ -37,15 +36,15 @@ const HazardUnit: FC<HazardUnitProps> = ({ HazardUnit, Description, HowToUse }) 
       }
 
       const symbol = renderers[0].symbol.clone();
-      console.log('symbol', symbol);
-      console.log('legend.current', legend.current);
+      // console.log('symbol', symbol);
+      // console.log('legend.current', legend.current);
       await symbolUtils.renderPreviewHTML(symbol, {
         node: legend.current
       });
     };
 
     const assets = mapContext.visualAssets[getHazardCodeFromUnitCode(HazardUnit)];
-    console.log('ASSETS', assets);
+    // console.log('ASSETS', assets);
     if (!hasLegend && assets && assets.renderer) {
       buildLegend(assets.renderer);
     }

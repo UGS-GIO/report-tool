@@ -9,7 +9,7 @@ interface ProgressBarProps {
 }
 
 const ProgressBar: FC<ProgressBarProps> = ({ tasks, className, children }) => {
-  console.log('Progress.render');
+  // console.log('Progress.render');
 
   const values = Object.values(tasks);
   const max = values.length;

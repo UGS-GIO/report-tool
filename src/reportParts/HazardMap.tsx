@@ -38,7 +38,7 @@ let view: any;
 let scaleBar: any;
 
 const HazardMap: FC<HazardMapProps> = ({ aoi, queriesWithResults, children }) => {
-  console.log('HazardMap.render', { aoi, queriesWithResults });
+  // // console.log('HazardMap.render', { aoi, queriesWithResults });
   const [visualAssets, setVisualAssets] = useState<VisualAssets>({});
   const [mapLoading, setMapLoading] = useState(false);
   const [mapLoaded, setMapLoaded] = useState(false);
@@ -46,7 +46,7 @@ const HazardMap: FC<HazardMapProps> = ({ aoi, queriesWithResults, children }) =>
 
 
   const createMap = async () => {
-    console.log('HazardMap.createMap');
+    // // console.log('HazardMap.createMap');
 
     setMapLoading(true);
 
@@ -62,7 +62,7 @@ const HazardMap: FC<HazardMapProps> = ({ aoi, queriesWithResults, children }) =>
     };
 
     const polygon = new Polygon(aoi);
-    console.log('AOI YO', aoi);
+    // console.log('AOI YO', aoi);
 
 
     const polylineGraphic = new Graphic({
@@ -73,7 +73,7 @@ const HazardMap: FC<HazardMapProps> = ({ aoi, queriesWithResults, children }) =>
     map = new WebMap({
       portalItem: { id: config.webMaps.hazard }
     });
-    console.log('map created');
+    // console.log('map created');
 
     view = new MapView({
       map,
@@ -119,7 +119,7 @@ const HazardMap: FC<HazardMapProps> = ({ aoi, queriesWithResults, children }) =>
 
   useEffect(() => {
     const getScreenshots = async () => {
-      console.log('getScreenshots', queriesWithResults);
+      // console.log('getScreenshots', queriesWithResults);
 
       const newScreenshots: Record<string, Screenshot> = {};
       for (let index = 0; index < queriesWithResults.length; index++) {
@@ -168,7 +168,7 @@ const HazardMap: FC<HazardMapProps> = ({ aoi, queriesWithResults, children }) =>
 };
 
 const getScreenshot = async function (url?: string, hazardCode?: string) {
-  console.log('HazardMap.getScreenshot', url);
+  // console.log('HazardMap.getScreenshot', url);
 
   let renderer;
 
@@ -221,7 +221,7 @@ const getScreenshot = async function (url?: string, hazardCode?: string) {
   // this is not working so we are sticking with the above watchUtils.whenFalseOnce for now
   // reactiveUtils.when(
   //   () => !view.updating,
-  //   () => console.log("view is now stationary"),
+  //   () => // console.log("view is now stationary"),
   //   { once: true }
   // );
 
@@ -239,7 +239,7 @@ const getScreenshot = async function (url?: string, hazardCode?: string) {
     });
   }
 
-  console.log('view.scale', scale, hazardCode, renderer);
+  // console.log('view.scale', scale, hazardCode, renderer);
   return { screenshot, renderer, scale, scaleBarDom };
 };
 
