@@ -1,8 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useContext, useState, useEffect, createContext, FC, ReactNode } from 'react';
-// import * as reactiveUtils from "@arcgis/core/core/reactiveUtils.js";
+import * as reactiveUtils from "@arcgis/core/core/reactiveUtils.js";
 import config from '../config';
-import getModules from '../esriModules';
 import WebMap from "@arcgis/core/WebMap.js";
 import MapView from "@arcgis/core/views/MapView.js";
 import Polygon from "@arcgis/core/geometry/Polygon.js";
@@ -11,13 +10,14 @@ import ScaleBar from "@arcgis/core/widgets/ScaleBar.js";
 // import getModules from '../esriModules';
 import { ProgressContext } from '../App';
 import './HazardMap.scss';
+import { Polygon as PolygonType } from '../types/types';
 
 interface VisualAssets {
   [key: string]: any;
 }
 
 interface HazardMapProps {
-  aoi: Polygon;
+  aoi: PolygonType;
   queriesWithResults: Array<[string, string]>;
   children?: ReactNode;
 }
@@ -81,7 +81,7 @@ const HazardMap: FC<HazardMapProps> = ({ aoi, queriesWithResults, children }) =>
       ui: {
         components: ['attribution']
       },
-      extent: polygon.extent.expand(3),
+      extent: polygon.extent.expand(2),
       graphics: [polylineGraphic],
       constraints: {
         snapToZoom: false
@@ -174,7 +174,7 @@ const getScreenshot = async function (url?: string, hazardCode?: string) {
 
   await map.when();
 
-  for (let index = 0; index < map.layers.length; index++) {
+  map.layers.forEach(async (__: any, index: any) => {
     let layer = map.layers.getItemAt(index);
     let testUrl;
     let loadLayer;
@@ -202,9 +202,7 @@ const getScreenshot = async function (url?: string, hazardCode?: string) {
         layer.parent.visible = layer.visible;
       }
     }
-  }
-
-  const { watchUtils } = await getModules();
+  })
 
   let originalScale;
   if (hazardCode === config.groundshakingHazardCode) {
@@ -216,7 +214,8 @@ const getScreenshot = async function (url?: string, hazardCode?: string) {
     });
   }
 
-  await watchUtils.whenFalseOnce(view, 'updating');
+  await reactiveUtils.whenOnce(
+    () => !view.updating,);
 
   // this is not working so we are sticking with the above watchUtils.whenFalseOnce for now
   // reactiveUtils.when(

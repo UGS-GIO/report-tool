@@ -18,7 +18,7 @@ interface SummaryPageProps {
 }
 
 const SummaryPage: FC<SummaryPageProps> = (props) => {
-  // console.log('SummaryPage.render', props);
+  console.log('SummaryPage.render', props);
 
   let hazardUnits: HazardUnit[] = [];
   Object.values(props.groupToHazardMap).forEach(hazardCodes => {

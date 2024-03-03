@@ -11,6 +11,8 @@
   },
   "dependencies": {
     "@arcgis/core": "^4.28.10",
+    "@tanstack/react-query": "^5.22.2",
+    "@tanstack/react-query-devtools": "^5.24.0",
     "classnames": "^2.5.1",
     "esri-loader": "^3.7.0",
     "lodash": "^4.17.21",

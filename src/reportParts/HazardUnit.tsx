@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState, useEffect, useRef, useContext, FC } from 'react';
-import getModules from '../esriModules';
+// import getModules from '../esriModules';
+import * as symbolUtils from "@arcgis/core/symbols/support/symbolUtils.js";
 import config from '../config';
 import { HazardMapContext } from './HazardMap';
 import { getHazardCodeFromUnitCode } from '../helpers';
@@ -12,10 +13,10 @@ export interface HazardUnitProps {
   HowToUse?: string;
 }
 
-const HazardUnit: FC<HazardUnitProps> = ({ HazardUnit, Description, HowToUse }) => {
+const HazardUnit: FC<HazardUnitProps> = ({ HazardUnit, Description }) => {
   // console.log('HazardUnit', { HazardUnit, Description, HowToUse });
   const [hasLegend, setHasLegend] = useState(false);
-  const legend = useRef<HTMLDivElement>(null);
+  const legend = useRef<HTMLDivElement>();
   const mapContext = useContext(HazardMapContext);
 
   useEffect(() => {
@@ -24,7 +25,7 @@ const HazardUnit: FC<HazardUnitProps> = ({ HazardUnit, Description, HowToUse }) 
 
       setHasLegend(true);
 
-      const { symbolUtils } = await getModules();
+      // const { symbolUtils } = await getModules();
       let renderers = [];
 
       if (renderer.type === 'unique-value') {
@@ -36,15 +37,13 @@ const HazardUnit: FC<HazardUnitProps> = ({ HazardUnit, Description, HowToUse }) 
       }
 
       const symbol = renderers[0].symbol.clone();
-      // console.log('symbol', symbol);
-      // console.log('legend.current', legend.current);
       await symbolUtils.renderPreviewHTML(symbol, {
         node: legend.current
       });
     };
 
     const assets = mapContext.visualAssets[getHazardCodeFromUnitCode(HazardUnit)];
-    // console.log('ASSETS', assets);
+
     if (!hasLegend && assets && assets.renderer) {
       buildLegend(assets.renderer);
     }
